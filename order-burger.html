@@ -1,0 +1,149 @@
+<html lang="en">
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<title>Roadster Diner</title>
+</head>
+
+<body>
+
+    <h2>Welcome to Roadster Diner's Burger Order!</h2>
+
+    <input type="button" value="Add Item" id="btnAddItem" onclick="AddItem();"/>
+
+    <div id="dynamicInput">
+        
+    </div>
+    <input type="button" value="Feed Me!" id="btnFeedMe" onclick="preview()"/>
+    <p><h3>My Shopping Cart</h3></p>
+    <p>
+        <textarea id="cart" rows="8" cols="30" onfocus="this.blur();"></textarea>
+    </p>
+    <p>
+        <button type="button" onclick="SendOrder();">Send Order</button>
+    </p>
+
+    <script>
+        item_numb =0;
+      
+
+        function AddItem() {
+            item_numb++;
+          
+            let item_number = ("item"+item_numb).toString();
+          
+            let burger = document.createTextNode("Burger: ");
+            let quantity = document.createTextNode("Quantity: ");
+            let item = document.createElement("div");
+            item.setAttribute("id", item_number)
+            let burger_word = document.createElement("label"); 
+            burger_word.appendChild(burger);
+
+            let select_burger = document.createElement("select"); 
+
+            let option1 = document.createElement("option"); option1.setAttribute("value", "18250"); option1.setAttribute("name", "Cheese-at-heart");
+            let option2 = document.createElement("option"); option2.setAttribute("value", "13750");
+            let option3 = document.createElement("option"); option3.setAttribute("value", "12750");
+            let option4 = document.createElement("option"); option4.setAttribute("value", "13500");
+            let option5 = document.createElement("option"); option5.setAttribute("value", "13750");
+            
+            
+            let opt1 = document.createTextNode("Cheese-At-Heart");
+            let opt2 = document.createTextNode("Diner-Mite");
+            let opt3 =  document.createTextNode("Swiss Mushroom");
+            let opt4 =  document.createTextNode("Mighty Chicken");
+            let opt5 =  document.createTextNode("B.B.B.");
+
+            option1.appendChild(opt1);
+            option2.appendChild(opt2);
+            option3.appendChild(opt3);
+            option4.appendChild(opt4);
+            option5.appendChild(opt5);
+
+            let quantity_word = document.createElement("label"); 
+            quantity_word.appendChild(quantity);
+
+            let quantity_box = document.createElement("input"); quantity_box.setAttribute("type", "text"); quantity_box.setAttribute("value", "1");
+
+            let remove_button = document.createElement("BUTTON");
+            remove_button.appendChild(document.createTextNode("X"));
+            remove_button.setAttribute("onclick", "remove_item(\""+item_number+"\");")
+            let feedme = document.getElementById("btnFeedMe");
+           
+            let container = document.getElementById("dynamicInput");
+            container.appendChild(item);
+
+            item.appendChild(burger_word);
+            item.appendChild(select_burger);
+            item.appendChild(quantity_word);
+            item.appendChild(quantity_box);
+            item.appendChild(remove_button);
+
+            select_burger.appendChild(option1);
+            select_burger.appendChild(option2);
+            select_burger.appendChild(option3);
+            select_burger.appendChild(option4);
+            select_burger.appendChild(option5);
+           
+        }
+
+        function remove_item(item_number) {
+           let item = document.getElementById(item_number);
+            parent = item.parentNode;
+            parent.removeChild(item);
+        }
+
+        function preview() {
+            let textarea = document.getElementById("cart");
+          
+            if (textarea.innerHTML !='') {  //updates upon button press PART 4
+
+                textarea.innerHTML ='';
+            }
+        
+            let container = document.getElementById("dynamicInput");
+            let items = container.children;
+            let total = 0;
+            let total_text='';
+            for (let i =0; i< items.length ; i++) {
+                let item = items[i];
+                let burger = item.querySelector("select");
+                let burger_name = burger.options[burger.selectedIndex].text;
+                let burger_price = burger.value;
+
+                let quantity = item.querySelector("input");
+                let quantity_number = quantity.value;
+                
+                let total_local = burger_price*quantity_number;
+                total+= burger_price*quantity_number;
+                
+                let text = burger_name + " x "+ quantity_number + " = " +total_local +"L.L. \n";
+
+                total_text +=text;
+              
+            }
+            total_text +="\n Total: "+total + " L.L.";
+
+            let textnode = document.createTextNode(total_text);
+            textarea.appendChild(textnode);
+
+
+        }
+
+        function SendOrder() {
+            let textarea = document.getElementById("cart");
+            textarea.innerHTML ='';
+            let container = document.getElementById("dynamicInput");
+            let items = container.querySelectorAll("div");
+            for (let i=0; i<items.length ; i++) {
+                items[i].parentNode.removeChild(items[i]);
+            }
+            item_numb = 0;
+        }
+        
+    </script>
+</body>
+
+</html>
+
+
