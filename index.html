@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+
+  <style>
+
+    body {
+      margin: auto;
+      width: 700px;
+    }
+    .to-do-list {
+      background-color: #e04f5f;
+      width: 600px;
+      display:flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .to-do-list h1 { 
+      color: white;
+      font-weight:100;
+    }
+
+    #add {
+      width:400px;
+      height: 35px;
+      color: grey;
+      margin: 0px;
+      border: white;
+      border-radius: 0;
+      margin-right: -2px;
+      padding-left:8px;
+
+    }
+    .add-button  {
+      width: 180px;
+      height:37px;
+      color: grey;
+      margin-left:-3px;
+      border:  grey ;
+      border-radius: 0;
+      
+    }
+
+    .delete-icon {
+      margin-top: 12px;
+      margin-left: 10px;
+      margin-right: 10px;
+      float: right;
+    }
+    .to-do-task {
+      width: 640px;
+      height: 60px;
+      color:rgba(0, 0, 0, 0.753);
+      font-weight:100;
+
+    }
+
+    .active {
+      
+      text-decoration: line-through;
+    }
+
+    .unhide {
+      visibility: visible;
+      display:inline-block;
+      margin-top: 12px;
+      margin-left: 10px;
+      margin-right: 10px;
+      transition: 0.5s;
+      
+    }
+
+    .hide {
+      visibility: hidden;
+      display:inline-block;
+      margin-top: 12px;
+      margin-left: 10px;
+      margin-right: 10px;
+      transition: 0.5s;
+      opacity: 0.005;
+    }
+
+
+    .to-do-task p {
+        display:inline-block;
+        padding-bottom: 10px;
+        margin-left: 10px;
+        font-size:17px;
+    }
+    .to-do-task:nth-child(odd) {
+      
+      background-color: #f9f9f9;    
+    }
+    .to-do-task:nth-child(even) {
+   
+      background-color: #eee; 
+
+    }  
+    .to-do-task:hover {
+      background-color: #ddd;
+      transition: 1s;
+    }
+
+
+  </style>
+</head>
+<body>
+  <div class="to-do-list">
+    <h1>My To Do List</h1>
+
+    <form><input type="text"  id="add">
+    <input type="submit" value="Add" class="add-button" onclick="add_element(); ">
+    </form>
+
+  </div>
+  
+<!--  </div>
+  <div class="to-do-task active">
+    <p>fdf</p>
+  </div> -->
+
+  <script type="text/javascript">
+       function $(id) {return document.getElementsByClassName(id);}
+
+       function add_element() {
+
+        event.preventDefault();
+        
+         var text0 = document.getElementById("add").value;
+        var text =  capitalizeFirstLetter(text0);
+
+          console.log(text);
+         if (text == null || text.trim() =='') {
+           alert("Need to write a task!");
+           return;
+         }
+
+         //creating elements
+         let delete_icon = document.createElement('img');
+         let check_icon = document.createElement('img');
+         let task = document.createElement('div');
+         let task_text= document.createElement('p');
+         task_text.appendChild(document.createTextNode(text));
+        //assigning classes
+
+        task.setAttribute("class", "to-do-task");
+        delete_icon.setAttribute("class", "delete-icon");
+        check_icon.setAttribute("id", "check-icon");
+        check_icon.setAttribute("class", "hide");
+
+        //assigning values
+        delete_icon.src ="delete.png";
+        check_icon.src="check.png";
+     
+        
+        //adding event listeners
+
+        document.body.appendChild(task);
+        task.appendChild(check_icon);
+        task.appendChild(task_text);
+        task.appendChild(delete_icon);
+      
+
+      delete_icon.addEventListener("click", function(e){e.target.parentNode.remove();});
+
+      task.addEventListener("click", function(e) 
+      { 
+        
+        task_text.classList.toggle("active");
+         check_icon.classList.toggle('unhide');
+         check_icon.classList.toggle('hide');
+         
+    });
+      
+
+    }
+
+    function capitalizeFirstLetter(text) {
+      
+      var array =  text.split(" ");
+      console.log(array.length);
+     console.log(array[0]) ;
+      for (let i=0; i<array.length; i++) {
+        array[i] = array[i].charAt(0).toUpperCase() + array[i].slice(1);
+      }
+      
+      return array.join(' ');
+
+    }
+
+  </script>
+
+</body>
+
+</html>
